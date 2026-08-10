@@ -1,0 +1,54 @@
+# ============================================================
+# CITATION.cff (How to cite this project)
+# ============================================================
+
+# REQ.UNIVERSAL: Professional open projects SHOULD include CITATION.cff.
+# WHY: Support correct citation and attribution.
+# ALT: Internal or private repositories may omit citation metadata.
+# CUSTOM: Update author, repository, license, and keyword fields as needed.
+# USAGE: See https://citation-file-format.github.io/ for details.
+
+cff-version: "1.2.0"
+type: software
+
+title: "templates"
+version: "0.1.0"
+date-released: "2026-06-06"
+
+authors:
+  - family-names: Case
+    given-names: Denise M.
+    orcid: "https://orcid.org/0000-0001-6165-7389"
+    affiliation: "Northwest Missouri State University, School of Computer Science and Information Systems, Maryville, MO, USA"
+
+repository-code: "https://github.com/denisecase/templates"
+url: "https://github.com/denisecase/templates"
+license: MIT
+
+abstract: >
+  Templates repository providing reusable project components,
+  configuration files, and documentation scaffolding
+  for professional Python and analytics projects.
+
+keywords:
+  - templates
+  - developer-tools
+  - project-templates
+  - project-scaffolding
+  - documentation-templates
+  - src-layout
+  - ci-cd
+  - github-actions
+  - reproducible-workflows
+  - software-quality
+  - professional-practice
+  - python
+  - git
+  - github
+  - pre-commit
+  - open-source
+  - uv
+  - ruff
+
+
+message: "If using this project, please cite it as described in this file."
