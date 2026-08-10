@@ -1,7 +1,7 @@
 # ============================================================
 # .github/workflows/pre-release.yml (ALL-PY-SRC-PYPI-REPOS)
 # ============================================================
-# Updated: 2026-06-27
+# Updated: 2026-08-10
 #
 # WHY: Validate tagged Python package artifacts before release.
 # REQ: Reusable by PyPI package repositories.
@@ -67,6 +67,8 @@ jobs:
           git describe --tags --always --dirty
           if [[ $(git status --porcelain) ]]; then
             echo "ERROR: Git tree is dirty before build!"
+            echo "Most likely: uv.lock is out of sync with pyproject.toml."
+            echo "Fix: run 'uv lock' locally, commit the updated lock, delete the tag, and re-tag."
             exit 1
           fi
 
