@@ -1,7 +1,7 @@
 # ============================================================
 # .github/workflows/ci-lean.yml (Continuous Integration)
 # ============================================================
-# SOURCE: https://github.com/denisecase/templates
+# SOURCE: https://github.com/pup-pack/templates
 #
 # WHY: Lean deliverables are proofs; broken proofs must not merge.
 # REQ: Any check that can be run locally MUST be available locally via pre-commit.

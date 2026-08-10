@@ -1,8 +1,8 @@
 # Templates
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/MIT)
-[![Check Links](https://github.com/denisecase/templates/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/denisecase/templates/actions/workflows/links.yml)
-[![Dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg)](https://github.com/denisecase/templates/security)
+[![Check Links](https://github.com/pup-pack/templates/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/pup-pack/templates/actions/workflows/links.yml)
+[![Dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg)](https://github.com/pup-pack/templates/security)
 
 <img src="docs/images/pup.png" alt="pup logo" width="110">
 
@@ -59,7 +59,7 @@ uvx pup-up --write
 Open a machine terminal where you want the project:
 
 ```shell
-git clone https://github.com/denisecase/templates
+git clone https://github.com/pup-pack/templates
 
 cd templates
 code .

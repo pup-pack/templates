@@ -1,7 +1,7 @@
 # ============================================================
 # .github/workflows/deploy-vue-vite.yml (Deploy Vue Vite)
 # ============================================================
-# SOURCE: https://github.com/denisecase/templates
+# SOURCE: https://github.com/pup-pack/templates
 #
 # WHY: Build and deploy Vue Vite app to GitHub Pages on pushes to main.
 # REQ: Repo Settings -> Pages -> Build and deployment -> Source:
