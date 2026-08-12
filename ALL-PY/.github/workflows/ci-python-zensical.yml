@@ -60,9 +60,10 @@ jobs:
           cache-dependency-glob: "uv.lock"
           # WHY: Invalidate cache only when locked dependencies change.
 
-      - name: A3) Install all dependencies with frozen versions (in uv.lock)
-        run: uv sync  --frozen
-        # WHY: Install dev and docs extras so all check and build tools are available.
+      - name: A3) Install project Python
+        run: uv python install
+        # WHY: Ensures the pinned Python version is available in CI.
+        # OBS: Does not modify the repo; uv manages the interpreter locally.
 
       - name: A4) Show tool versions
         run: |
