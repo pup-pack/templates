@@ -47,4 +47,5 @@ features = [
 # ------------------------------------------------------------
 # Navigation
 # ------------------------------------------------------------
-# Use folder-based navigation rather than explicit navigation.
+# If no explicit navigation is provided,
+# then folder-based navigation will be used automatically.
