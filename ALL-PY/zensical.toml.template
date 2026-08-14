@@ -1,11 +1,11 @@
 # ============================================================
 # zensical.toml (ALL-PY-REPOS)
 # ============================================================
-# Updated: 2026-06-27
+# Updated: 2026-08-14
 #
 # REQ: Python tooling only (no src) repositories SHOULD provide documentation configuration.
-# BUT Do not need mkdocs plugs used for src/ api generation.
-# pyproject.toml needs only zensical.
+# DO NOT NEED: plugins.mkdocstrings for src/ api generation.
+# pyproject.toml docs needs only zensical.
 # WHY: Centralizes project documentation configuration.
 
 [project]
@@ -23,6 +23,9 @@ edit_uri = "edit/main/docs/" # "Edit this page" links (GitHub)
 social = [
     {icon = "fontawesome/brands/github", link = "{{ repo_url }}" },
 ]
+
+[project.markdown_extensions]
+md_in_html = {} # WHY: Allow Markdown inside HTML blocks when the opening tag includes `markdown`, e.g. <details markdown>...</details>
 
 # ------------------------------------------------------------
 # Plugins
