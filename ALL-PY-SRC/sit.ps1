@@ -40,7 +40,7 @@ if (Test-Path "pyproject.toml") {
 }
 
 uv self update
-uv python install --upgrade pip
+uv python install
 uv lock --upgrade
 uv sync
 
