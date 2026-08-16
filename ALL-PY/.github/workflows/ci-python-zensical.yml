@@ -1,18 +1,18 @@
 # ============================================================
 # .github/workflows/ci-python-zensical.yml (ALL-PY-REPOS)
 # ============================================================
-# Updated: 2026-08-11
-
+# Updated: 2026-08-16
+#
 # WHY: Continuous Integration (CI) ensures repository hygiene,
 #      Python correctness, and documentation builds.
 # REQ: Repository MUST contain .python-version.
 # WHY: The repository declares the Python version used locally and by CI.
 # REQ: CI MUST NOT introduce rules that are not reproducible locally.
-# OBS: CI validates only; it does not edit files or deploy docs.
+# OBS: CI validates only; it never persists file changes or deploys docs.
 # OBS: yamllint config lives at .github/.yamllint.yml (not repo root).
-# TOOLING ONLY PYTHON REPOS need zensical, but not ruff, pyright, or pytest.
-# In pyproject.toml, they need zensical (for docs/)
-# and can use a simpler zensical.toml without API docs.
+# OBS: Tooling-only Python repos need Zensical for docs, but may omit
+#      Ruff, ty, pytest, and API-documentation dependencies when not applicable.
+# OBS: Tooling-only repos can use a simpler zensical.toml without API docs.
 
 # Name shown in the repo Actions tab.
 name: CI (Python + Zensical)
@@ -21,11 +21,11 @@ on:
   push:
     branches: [main]  # WHY: Validate on every push to GitHub branch `main`.
   pull_request:
-    branches: [main]  # WHY: Validate any pull requests (PRs) before merge.
+    branches: [main]  # WHY: Validate pull requests before merge.
   workflow_dispatch:  # WHY: Allow manual trigger from Actions tab.
 
-permissions:          # Least-privilege: this job only needs to READ.
-  contents: read      # It checks code; it never writes to the repo.
+permissions:          # WHY: Least privilege; this job only needs repository read access.
+  contents: read      # WHY: CI validates repository contents and never pushes changes.
 
 concurrency:
   group: ci-python-zensical-${{ github.workflow }}-${{ github.ref }}
@@ -36,6 +36,7 @@ concurrency:
 env:
   PYTHONUNBUFFERED: "1"     # WHY: Real-time log output in CI.
   PYTHONIOENCODING: "utf-8" # WHY: Consistent encoding across platforms.
+  UV_FROZEN: "1"            # WHY: CI MUST use the committed lockfile without updating it.
 
 jobs:
   ci:
@@ -56,16 +57,21 @@ jobs:
         uses: astral-sh/setup-uv@v10.0.0
         with:
           enable-cache: true
-          # WHY: Cache the uv tool itself for faster subsequent runs.
+          # WHY: Cache uv-managed artifacts for faster subsequent runs.
           cache-dependency-glob: "uv.lock"
-          # WHY: Invalidate cache only when locked dependencies change.
+          # WHY: Invalidate dependency cache when the committed lockfile changes.
 
       - name: A3) Install project Python
         run: uv python install
-        # WHY: Ensures the pinned Python version is available in CI.
-        # OBS: Does not modify the repo; uv manages the interpreter locally.
+        # WHY: Ensures the Python version declared in .python-version is available.
+        # OBS: uv manages the interpreter locally in the CI environment.
 
-      - name: A4) Show tool versions
+      - name: A4) Install dependencies from committed lockfile
+        run: uv sync --frozen
+        # WHY: Create the project environment exactly from the committed uv.lock.
+        # REQ: CI MUST fail rather than update a stale or incompatible lockfile.
+
+      - name: A5) Show tool versions
         run: |
           uv --version
           uv run python --version
@@ -74,12 +80,13 @@ jobs:
           fi
         # WHY: Version output makes CI logs easier to debug when tools change.
 
-      - name: A5) Run pre-commit on all files
+      - name: A6) Run pre-commit on all files
         run: uv run pre-commit run --all-files
-        # WHY: Run the same repo hygiene checks used locally.
-        # OBS: A clean commit should already pass this without file changes.
-        #      If a hook changes files in CI, the job fails because the repo
-        #      was not committed in its fully fixed state.
+        # WHY: Run the same repository hygiene checks used locally.
+        # OBS: A clean commit should already pass without file changes.
+        # OBS: Autofixing hooks may modify the ephemeral CI checkout.
+        #      If they do, pre-commit fails because the committed files
+        #      were not already in their required final state.
         # FIX: Run this command locally, review any autofixes, fix remaining
         #      issues by hand, then git add, commit, and push again.
 
@@ -89,10 +96,10 @@ jobs:
 
       - name: B1) Validate pyproject.toml schema
         run: uvx "validate-pyproject[all]" pyproject.toml
-        # WHY: Catches malformed pyproject.toml before a broken release.
+        # WHY: Catch malformed project metadata before downstream CI or release work.
 
       # ============================================================
-      # D) Docs build (no deployment)
+      # D) DOCS: Build documentation without deployment
       # ============================================================
 
       - name: D1) Build documentation with Zensical
@@ -102,7 +109,7 @@ jobs:
           else
             echo "No zensical.toml found; skipping docs build."
           fi
-        # WHY: Confirms docs build cleanly without errors or broken references.
-        # OBS: Build only; deployment is handled by a separate workflow if needed.
-        # OBS: Conditional on zensical.toml so this workflow is reusable across
-        #      repos that may not yet have docs configured.
+        # WHY: Confirm documentation builds without errors.
+        # OBS: This workflow builds only; deployment is handled separately.
+        # OBS: Conditional on zensical.toml so this workflow remains reusable
+        #      across Python repos that do not require documentation.

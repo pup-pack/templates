@@ -1,7 +1,7 @@
 # ============================================================
-# .github/workflows/ci-lean.yml (Continuous Integration)
+# .github/workflows/ci-lean.yml (LEAN-REPOS)
 # ============================================================
-# SOURCE: https://github.com/pup-pack/templates
+# UPDATED: 2026-08-16
 #
 # WHY: Lean deliverables are proofs; broken proofs must not merge.
 # REQ: Any check that can be run locally MUST be available locally via pre-commit.
@@ -22,31 +22,31 @@ permissions: # WHY: Use least privileges required.
   contents: read
 
 env:
-  PYTHONUNBUFFERED: "1" # WHY: Real-time logging.
+  PYTHONUNBUFFERED: "1"     # WHY: Real-time logging.
   PYTHONIOENCODING: "utf-8" # WHY: Ensure UTF-8 encoding for international characters.
 
 jobs:
   ci:
     name: Repository checks
-    runs-on: ubuntu-latest # WHY: Linux environment matches most production deployments
-    timeout-minutes: 10 # WHY: Prevent hanging jobs. If over time, likely stuck.
+    runs-on: ubuntu-latest # WHY: Linux environment matches most production deployments.
+    timeout-minutes: 10    # WHY: Prevent hanging jobs. If over time, likely stuck.
 
     steps:
       # ============================================================
-      # ASSEMBLE: Get code and set up environment
+      # ASSEMBLE: Get code and run repository checks
       # ============================================================
 
       - name: A1) Checkout repository code
-        # WHY: Needed to access files for checks.
         uses: actions/checkout@v7
+        # WHY: Needed to access files for checks.
 
-      - name: A2) Run pre-commit (on all files)
-        # WHY: Single source of truth for locally runnable quality gates.
-        # OBS: Fails if hooks would modify files; does not commit changes.
-        id: precommit # WHY: Identify step for conditional follow-up. # WHY: Identify step for conditional follow-up.
+      - name: A2) Run pre-commit on all files
+        id: precommit
         uses: pre-commit/action@v3.0.1
         with:
           extra_args: --all-files
+        # WHY: Single source of truth for locally runnable quality gates.
+        # OBS: Fails if hooks would modify files; does not commit changes.
 
       - name: A2f) If pre-commit failed, run it locally
         if: failure()
@@ -58,12 +58,15 @@ jobs:
     name: Build Lean (compile)
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    needs: ci # WHY: Build only if ci job succeeds.
+    needs: ci # WHY: Build only if repository checks succeed.
 
     steps:
       # ============================================================
       # BUILD: Get code and build Lean project
       # ============================================================
 
-      - uses: actions/checkout@v7
-      - uses: leanprover/lean-action@v1
+      - name: B1) Checkout repository code
+        uses: actions/checkout@v7
+
+      - name: B2) Build Lean project
+        uses: leanprover/lean-action@v1
