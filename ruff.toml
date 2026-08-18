@@ -1,0 +1,52 @@
+# ============================================================
+# pup-pack/templates/ruff.toml
+# ============================================================
+# Updated: 2026-08-17
+# WHY: This repo has no pyproject.toml (it is template fragments, not a project).
+# Ruff would otherwise use defaults and flag template files whose formatting
+# matches the DESTINATION repos' config. Mirror that config here.
+
+exclude = [
+    ".eggs",
+    "*.egg-info",
+    ".ruff_cache",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "site",
+]
+line-length = 88
+preview = false
+target-version = "py314"
+unsafe-fixes = false
+
+[format]
+indent-style = "space"
+line-ending = "auto"
+quote-style = "preserve"
+
+[lint]
+select = [
+    "E", "F", "W", "I", "UP", "B",
+    "PTH", "C4", "SIM", "RET",
+    "D", "S",
+]
+ignore = [
+    "E501",
+    "D203",
+    "D213",
+    "S101",
+]
+
+[lint.isort]
+force-sort-within-sections = true
+
+[lint.per-file-ignores]
+"src/**/__init__.py" = ["F401"]
+"src/**/_version.py" = ["ALL"]
+"tests/**/*.py" = ["D", "B018", "B011", "S101"]
+"src/**/py.typed" = ["ALL"]
+
+[lint.pydocstyle]
+convention = "google"
