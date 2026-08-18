@@ -84,7 +84,6 @@ differ by layer.
 | `markdownlint-cli2`       |  x  |   x    |     x      | `.markdownlint-cli2.yaml`         | Pre-commit in non-course repos; ad hoc in course repos |
 | `ruff-check`              |     |   x    |     x      | `--fix`, `--exit-non-zero-on-fix` | Pre-commit                                             |
 | `ruff-format`             |     |   x    |     x      |                                   | Pre-commit                                             |
-| `pyright`                 |     |        |     x      |                                   | Pre-commit or CI, depending on repo layer              |
 
 ## Ruff Policy
 
