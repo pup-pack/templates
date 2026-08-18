@@ -1,7 +1,7 @@
 """.github/scripts/check_leakage.py: Check project for copy/paste leakage.
 
 ALL-PY-REPOS
-Updated: 2026-08-16
+Updated: 2026-08-17
 
 Detects the copy-paste failure modes seen across the fleet:
   1. Identity mismatch: a metadata file naming a DIFFERENT project than the
@@ -82,6 +82,28 @@ KNOWN_PROJECTS = [
     "se-codeowners",
     "applied-computing-foundations",
 ]
+
+# Fleet TOOLS meant to be RUN from any repo. Allowed as commands
+# (uvx pup-up, pup-clean --delete), but still flagged if they appear
+# in identity metadata where a name should never leak.
+FLEET_TOOLS = {"pup-core", "pup-up", "pup-check", "pup-clean"}
+
+# A pup name used as a command is intended. Matches: uvx pup-up,
+# uv run pup-clean, or the bare `pup-up ...` command at a line/code start.
+_TOOL_COMMAND_RE = re.compile(
+    r'(?:uvx|uv run|uvx run)\s+(pup-(?:core|up|check|clean))\b'
+    r'|(?:^|\s)(pup-(?:core|up|check|clean))\s+--',
+    re.MULTILINE,
+)
+
+# Lines in pyproject.toml where a fleet name legitimately appears as a
+# DEPENDENCY (not a leaked identity). A name inside a dependency spec is fine.
+_DEP_CONTEXT_RE = re.compile(
+    r'^\s*["\']?[A-Za-z0-9_.-]*'  # optional leading name/quote
+    r'(datafun-toolkit|datafun-streaming|composable-data-core|ml-vizkit'
+    r'|se-manifest-schema|se-codeowners)'
+    r'[>=<~!\s"\',\]]',  # followed by a version/spec delimiter
+)
 
 
 # ============================================================
@@ -166,17 +188,53 @@ def check_src_package(root: Path) -> list[str]:
 
 
 def check_foreign_projects(root: Path) -> list[str]:
-    """A fleet project named in a repo that isn't it is a likely copy-paste leak."""
+    """A fleet project named in a repo that isn't it is a likely copy-paste leak.
+
+    Two intended contexts are allowed and not flagged:
+      - a fleet library named as a DEPENDENCY in pyproject.toml
+      - a fleet TOOL (pup-*) written as a COMMAND in prose (README, CHANGELOG)
+    """
     repo = norm(repo_name(root))
     problems: list[str] = []
-    for filename in ("pyproject.toml", "CITATION.cff", "CHANGELOG.md", "README.md"):
+    all_names = KNOWN_PROJECTS + list(FLEET_TOOLS)
+
+    # --- pyproject.toml: strict, EXCEPT dependency declarations ---
+    text = read(root, "pyproject.toml")
+    if text is not None:
+        for proj in all_names:
+            if norm(proj) == repo:
+                continue
+            for m in re.finditer(rf'(?<![\w-]){re.escape(proj)}(?![\w-])', text):
+                line = text[
+                    text.rfind("\n", 0, m.start()) + 1 : text.find("\n", m.start())
+                ]
+                if _DEP_CONTEXT_RE.search(line):
+                    continue  # it's a dependency, allowed
+                problems.append(
+                    f"pyproject.toml: mentions other project {proj!r} (copy-paste leak?)"
+                )
+
+    # --- CITATION.cff: strict identity, no exceptions ---
+    text = read(root, "CITATION.cff")
+    if text is not None:
+        for proj in all_names:
+            if norm(proj) == repo:
+                continue
+            if re.search(rf'(?<![\w-]){re.escape(proj)}(?![\w-])', text):
+                problems.append(
+                    f"CITATION.cff: mentions other project {proj!r} (copy-paste leak?)"
+                )
+
+    # --- Prose (README, CHANGELOG): allow pup tools used as commands ---
+    for filename in ("README.md", "CHANGELOG.md"):
         text = read(root, filename)
         if text is None:
             continue
-        for proj in KNOWN_PROJECTS:
+        scrubbed = _TOOL_COMMAND_RE.sub(" ", text)
+        for proj in all_names:
             if norm(proj) == repo:
-                continue  # naming yourself is fine
-            if re.search(rf'(?<![\w-]){re.escape(proj)}(?![\w-])', text):
+                continue
+            if re.search(rf'(?<![\w-]){re.escape(proj)}(?![\w-])', scrubbed):
                 problems.append(
                     f"{filename}: mentions other project {proj!r} (copy-paste leak?)"
                 )
