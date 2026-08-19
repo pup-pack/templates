@@ -1,7 +1,7 @@
 # ============================================================
 # .github/workflows/leakage-check.yml (ALL-PY-REPOS)
 # ============================================================
-# Updated: 2026-08-16
+# Updated: 2026-08-19
 
 # Fails a PR/commit if metadata files leak another project's name,
 # mismatch versions, or reference a stale template source.
@@ -39,7 +39,7 @@ jobs:
         # WHY: Required so all subsequent steps can access repo files.
 
       - name: A2) Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.x"
         # WHY: Stdlib-only script; no uv or project dependencies needed.
