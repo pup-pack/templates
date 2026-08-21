@@ -35,36 +35,6 @@ commands instead of making them pre-commit gates.
 This keeps the baseline shared while allowing enforcement
 to differ by repository purpose.
 
-## Node Tooling Policy
-
-Node is in the shared baseline because `markdownlint-cli2` runs through
-`npx`.
-
-This is acceptable for course repositories because it works well,
-the workflow has been understandable in practice without significant issues.
-
-## Markdown Linting Policy
-
-Markdown linting uses `markdownlint-cli2`.
-
-The shared config is: `.markdownlint-cli2.yaml`
-
-Run with: `npx markdownlint-cli2 --fix`
-
-Markdown linting belongs in `ALL` because Markdown appears in
-research, package, course, and documentation repositories.
-
-In non-course repositories,
-Markdown linting may be enforced through `pre-commit`.
-
-In course repositories, Markdown linting may remain an
-ad hoc command rather than a pre-commit gate.
-
-`MD013` remains enabled for authored prose at 100 characters, with exceptions for
-headings, tables, and code blocks.
-This keeps source Markdown readable without
-forcing awkward wrapping where wrapping causes damage.
-
 ## Repository Checks
 
 These checks are part of the repository baseline. The enforcement point may
@@ -81,7 +51,6 @@ differ by layer.
 | `check-added-large-files` |  x  |   x    |     x      | `--maxkb=2000`                    | Pre-commit                                             |
 | `check-merge-conflict`    |  x  |   x    |     x      |                                   | Pre-commit                                             |
 | `check-case-conflict`     |  x  |   x    |     x      |                                   | Pre-commit                                             |
-| `markdownlint-cli2`       |  x  |   x    |     x      | `.markdownlint-cli2.yaml`         | Pre-commit in non-course repos; ad hoc in course repos |
 | `ruff-check`              |     |   x    |     x      | `--fix`, `--exit-non-zero-on-fix` | Pre-commit                                             |
 | `ruff-format`             |     |   x    |     x      |                                   | Pre-commit                                             |
 
@@ -116,7 +85,7 @@ This is an example, and can be expected to evolve.
 
 | Layer               | Files                                                                                                                                                                                                                 | Purpose                                                                                                                                 |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `ALL`               | `.editorconfig`, `.gitattributes`, `.gitignore`, `.markdownlint-cli2.yaml`, `.github/.yamllint.yml`, `dependabot.yml`, `.github/lychee.toml`, `workflows/links.yml`, `AI_USE.md`, `CLAUDE.md`, `LICENSE`, `shape.ps1` | Shared repository hygiene, governance, linting, links, and shape inspection. Applies regardless of language.                            |
+| `ALL`               | `.editorconfig`, `.gitattributes`, `.gitignore`, `.github/.yamllint.yml`, `dependabot.yml`, `.github/lychee.toml`, `workflows/links.yml`, `AI_USE.md`, `CLAUDE.md`, `LICENSE`, `shape.ps1` | Shared repository hygiene, governance, linting, links, and shape inspection. Applies regardless of language.                            |
 | `ALL-TS`            | `.pre-commit-config.yaml`                                                                                                                                                                                             | TypeScript-specific hooks. Kept out of `ALL` to avoid imposing a JS/TS toolchain.                                                       |
 | `ALL-PY`            | `.pre-commit-config.yaml`                                                                                                                                                                                             | Python-specific hooks. Same filename as `ALL-TS`, different language contract.                                                          |
 | `ALL-PY-SRC`        | `workflows/ci-python-zensical.yml`, `workflows/deploy-zensical.yml`, `zensical.toml.template`                                                                                                                         | Package/docs CI for repositories with a `src/` package and docs site.                                                                   |

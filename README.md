@@ -68,8 +68,6 @@ code .
 ### In a VS Code terminal
 
 ```shell
-npx markdownlint-cli2 --fix
-
 # save progress
 git add -A
 git commit -m "update"
