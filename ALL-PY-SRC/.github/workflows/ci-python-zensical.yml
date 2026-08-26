@@ -1,7 +1,7 @@
 # ============================================================
 # .github/workflows/ci-python-zensical.yml (ALL-PY-SRC-REPOS)
 # ============================================================
-# Updated: 2026-08-16
+# Updated: 2026-08-18
 #
 # WHY: Continuous Integration (CI) ensures repository hygiene,
 #      Python correctness, testing, and documentation builds.

@@ -40,19 +40,19 @@ to differ by repository purpose.
 These checks are part of the repository baseline. The enforcement point may
 differ by layer.
 
-| Check                     | ALL | ALL-PY | ALL-PY-SRC | Args / Config                     | Enforcement                                            |
-| ------------------------- | :-: | :----: | :--------: | --------------------------------- | ------------------------------------------------------ |
-| `trailing-whitespace`     |  x  |   x    |     x      | `--markdown-linebreak-ext=md`     | Pre-commit                                             |
-| `end-of-file-fixer`       |  x  |   x    |     x      |                                   | Pre-commit                                             |
-| `mixed-line-ending`       |  x  |   x    |     x      | `--fix=lf`                        | Pre-commit                                             |
-| `check-json`              |  x  |   x    |     x      | exclude `^\.vscode/.*\.json$`     | Pre-commit                                             |
-| `check-toml`              |  x  |   x    |     x      |                                   | Pre-commit                                             |
-| `check-yaml`              |  x  |   x    |     x      | files `\.(yml\|yaml)$`            | Pre-commit                                             |
-| `check-added-large-files` |  x  |   x    |     x      | `--maxkb=2000`                    | Pre-commit                                             |
-| `check-merge-conflict`    |  x  |   x    |     x      |                                   | Pre-commit                                             |
-| `check-case-conflict`     |  x  |   x    |     x      |                                   | Pre-commit                                             |
-| `ruff-check`              |     |   x    |     x      | `--fix`, `--exit-non-zero-on-fix` | Pre-commit                                             |
-| `ruff-format`             |     |   x    |     x      |                                   | Pre-commit                                             |
+| Check                     | ALL | ALL-PY | ALL-PY-SRC | Args / Config                     | Enforcement |
+| ------------------------- | :-: | :----: | :--------: | --------------------------------- | ----------- |
+| `trailing-whitespace`     |  x  |   x    |     x      | `--markdown-linebreak-ext=md`     | Pre-commit  |
+| `end-of-file-fixer`       |  x  |   x    |     x      |                                   | Pre-commit  |
+| `mixed-line-ending`       |  x  |   x    |     x      | `--fix=lf`                        | Pre-commit  |
+| `check-json`              |  x  |   x    |     x      | exclude `^\.vscode/.*\.json$`     | Pre-commit  |
+| `check-toml`              |  x  |   x    |     x      |                                   | Pre-commit  |
+| `check-yaml`              |  x  |   x    |     x      | files `\.(yml\|yaml)$`            | Pre-commit  |
+| `check-added-large-files` |  x  |   x    |     x      | `--maxkb=2000`                    | Pre-commit  |
+| `check-merge-conflict`    |  x  |   x    |     x      |                                   | Pre-commit  |
+| `check-case-conflict`     |  x  |   x    |     x      |                                   | Pre-commit  |
+| `ruff-check`              |     |   x    |     x      | `--fix`, `--exit-non-zero-on-fix` | Pre-commit  |
+| `ruff-format`             |     |   x    |     x      |                                   | Pre-commit  |
 
 ## Ruff Policy
 
@@ -78,20 +78,6 @@ for repositories that use the full pre-commit gate.
 Course repositories may document Markdown linting
 as a manual command rather than
 installing it as a pre-commit hook.
-
-## Template Layer Application
-
-This is an example, and can be expected to evolve.
-
-| Layer               | Files                                                                                                                                                                                                                 | Purpose                                                                                                                                 |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `ALL`               | `.editorconfig`, `.gitattributes`, `.gitignore`, `.github/.yamllint.yml`, `dependabot.yml`, `.github/lychee.toml`, `workflows/links.yml`, `AI_USE.md`, `CLAUDE.md`, `LICENSE`, `shape.ps1` | Shared repository hygiene, governance, linting, links, and shape inspection. Applies regardless of language.                            |
-| `ALL-TS`            | `.pre-commit-config.yaml`                                                                                                                                                                                             | TypeScript-specific hooks. Kept out of `ALL` to avoid imposing a JS/TS toolchain.                                                       |
-| `ALL-PY`            | `.pre-commit-config.yaml`                                                                                                                                                                                             | Python-specific hooks. Same filename as `ALL-TS`, different language contract.                                                          |
-| `ALL-PY-SRC`        | `workflows/ci-python-zensical.yml`, `workflows/deploy-zensical.yml`, `zensical.toml.template`                                                                                                                         | Package/docs CI for repositories with a `src/` package and docs site.                                                                   |
-| `ALL-PY-SRC-PYPI`   | `workflows/pre-release.yml`, `workflows/release-pypi.yml`                                                                                                                                                             | Release workflows for publishable PyPI packages only.                                                                                   |
-| `ALL-COURSE`        | `.gitignore`                                                                                                                                                                                                          | Course-specific ignore rules for student scratch files, personalized notebooks, and generated outputs. Overrides the base `.gitignore`. |
-| `ALL-COURSE-PY-SRC` | `AGENTS.md`, `docs/index.md`, `docs/project-instructions.md`, `docs/your-files.md`, `docs/api.md.template`, `zensical.toml.template`                                                                                  | Student-facing documentation and course-specific docs configuration. Overrides package-oriented docs config where needed.               |
 
 ## Override Policy
 
