@@ -51,11 +51,6 @@ uvx pup-up --write
 
 ## Developer Command Reference
 
-<details>
-<summary>Show command reference</summary>
-
-### In a machine terminal
-
 Open a machine terminal where you want the project:
 
 ```shell
@@ -73,8 +68,6 @@ git add -A
 git commit -m "update"
 git push -u origin main
 ```
-
-</details>
 
 ## Annotations
 
