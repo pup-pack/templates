@@ -1,7 +1,7 @@
 # ============================================================
 # .github/workflows/pre-release.yml (ALL-PY-SRC-PYPI-REPOS)
 # ============================================================
-# Updated: 2026-08-18
+# Updated: 2026-09-25
 #
 # WHY: Validate tagged Python package artifacts before release.
 # REQ: Reusable by PyPI package repositories.
@@ -37,6 +37,7 @@ jobs:
           fetch-depth: 0   # WHY: hatch-vcs needs full history to derive version from tags.
           fetch-tags: true
           ref: ${{ github.ref }}
+          persist-credentials: false
 
       - name: A2) Install uv (with caching)
         uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
@@ -92,7 +93,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          TAG="${{ steps.ver.outputs.plain }}"
+          TAG="${STEPS_VER_OUTPUTS_PLAIN}"
           echo "Tag version: $TAG"
           ls dist
 
@@ -102,6 +103,8 @@ jobs:
           fi
 
           echo "Artifact version matches tag."
+        env:
+          STEPS_VER_OUTPUTS_PLAIN: ${{ steps.ver.outputs.plain }}
 
       - name: B5) Install dependencies from committed lockfile
         run: uv sync --frozen

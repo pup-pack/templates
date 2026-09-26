@@ -1,7 +1,7 @@
 # Templates
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/MIT)
-[![Check Links](https://github.com/pup-pack/templates/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/pupup-packplates/actions/workflows/links.yml)
+[![Check Links](https://github.com/pup-pack/templates/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/pup-pack/templates/actions/workflows/links.yml)
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg)](https://github.com/pup-pack/templates/security)
 
 <img src="docs/images/pup.png" alt="pup logo" width="110">
@@ -68,7 +68,7 @@ uvx gha-tools autoupdate --pin=all --write .github/workflows
 uvx gha-tools autoupdate --pin=all --write ALL/.github/workflows
 uvx gha-tools autoupdate --pin=all --write ALL-PY/.github/workflows
 uvx gha-tools autoupdate --pin=all --write ALL-PY-SRC/.github/workflows
-uvx gha-tools autoupdate --pin=all --write ALL*/.github/workflows
+uvx gha-tools autoupdate --pin=all --write ALL-PY-SRC-PYPI/.github/workflows
 
 # Then audit the resulting GitHub configuration for security findings
 uvx zizmor@latest .github/

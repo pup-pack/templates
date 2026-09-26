@@ -1,7 +1,7 @@
 # ============================================================
 # .github/workflows/release-pypi.yml (ALL-PY-SRC-PYPI-REPOS)
 # ============================================================
-# Updated: 2026-08-16
+# Updated: 2026-09-25
 #
 # WHY: Publish a tagged Python package release to PyPI.
 # REQ: Trigger ONLY on version tags like v1.2.3.
@@ -38,7 +38,7 @@ jobs:
   # 1) Validate and build once. Produces the `dist` artifact.
   # ------------------------------------------------------------
   pre-release:
-    uses: ./.github/workflows/pre-release.yml
+    uses: $/.github/workflows/pre-release.yml
 
   # ------------------------------------------------------------
   # 2) Publish the exact artifact that pre-release built and checked.
@@ -55,6 +55,8 @@ jobs:
     steps:
       - name: A1) Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
         # WHY: Provides git/repo context for the release step.
         # OBS: No deep history needed here; the artifact is downloaded, not rebuilt.
 
@@ -74,7 +76,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          TAG="${{ steps.ver.outputs.plain }}"
+          TAG="${STEPS_VER_OUTPUTS_PLAIN}"
           echo "Tag version: $TAG"
           ls dist
 
@@ -84,6 +86,8 @@ jobs:
           fi
 
           echo "Artifact version matches tag."
+        env:
+          STEPS_VER_OUTPUTS_PLAIN: ${{ steps.ver.outputs.plain }}
 
       # ============================================================
       # B) RELEASE AND PUBLISH
