@@ -61,7 +61,8 @@
 # NOTE: These entries are harmless in repositories that do not generate them.
 docs/assets/data/view-analytics.json
 docs/assets/data/guide-context.json
-docs/app/  # marimo WASM export; built at deploy time, not committed
+# marimo WASM export; built at deploy time, not committed
+docs/app/
 
 
 # === Environment variables and secrets ===
