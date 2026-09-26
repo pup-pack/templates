@@ -54,12 +54,12 @@ jobs:
 
     steps:
       - name: A1) Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         # WHY: Provides git/repo context for the release step.
         # OBS: No deep history needed here; the artifact is downloaded, not rebuilt.
 
       - name: A2) Download the built distribution
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         # OBS: Major must match the upload-artifact major in pre-release.yml.
         with:
           name: dist
@@ -90,7 +90,7 @@ jobs:
       # ============================================================
 
       - name: B1) Create GitHub Release and upload artifacts
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3
         with:
           tag_name: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
@@ -103,5 +103,5 @@ jobs:
           make_latest: true
 
       - name: B2) Publish to PyPI with Trusted Publishing
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
         # OBS: Uploads dist/* by default; the downloaded artifact lands in dist/.

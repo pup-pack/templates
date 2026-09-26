@@ -41,3 +41,7 @@ updates:
     commit-message:
       # WHY: Use a recognizable dependency prefix for filtering and history.
       prefix: "(deps)"
+
+    cooldown:
+      default-days: 7
+      # WHY: Match the 7-day cooldown used by uv exclude-newer and prek.

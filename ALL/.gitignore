@@ -61,6 +61,7 @@
 # NOTE: These entries are harmless in repositories that do not generate them.
 docs/assets/data/view-analytics.json
 docs/assets/data/guide-context.json
+docs/app/
 
 
 # === Environment variables and secrets ===

@@ -13,46 +13,14 @@ ALL -> ALL-PY -> ALL-PY-SRC -> optional specializations
 Each layer may add files, checks, workflows, or documentation. Later layers may
 also override earlier files when the same filename has a different contract.
 
-| Tier                | Applies to                                      | Adds                                                                                |
-| ------------------- | ----------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `ALL`               | Every repository, any language                  | Hygiene, file-format validation, Markdown/YAML/link checks, shared governance files |
-| `ALL-PY`            | Any repository with Python tooling or scripts   | Ruff and Python pre-commit configuration                                            |
-| `ALL-PY-SRC`        | Python repositories with a `src/` package       | Pyright and package/docs CI                                                         |
-| `ALL-PY-SRC-PYPI`   | Publishable Python packages                     | PyPI release workflows                                                              |
-| `ALL-COURSE`        | Course repositories                             | Course-specific ignores and safe defaults                                           |
-| `ALL-COURSE-PY-SRC` | Course repositories with Python source packages | Standard course docs, API docs, and course docs config                              |
-| `ALL-TS`            | TypeScript repositories                         | TypeScript-specific pre-commit configuration                                        |
-
-## Enforcement Model
-
-Not every baseline check is enforced the same way in every repository.
-
-Research, package, and infrastructure repositories may use stricter commit-time
-automation.
-Course repositories may keep some checks available as explicit
-commands instead of making them pre-commit gates.
-
-This keeps the baseline shared while allowing enforcement
-to differ by repository purpose.
-
-## Repository Checks
-
-These checks are part of the repository baseline. The enforcement point may
-differ by layer.
-
-| Check                     | ALL | ALL-PY | ALL-PY-SRC | Args / Config                     | Enforcement |
-| ------------------------- | :-: | :----: | :--------: | --------------------------------- | ----------- |
-| `trailing-whitespace`     |  x  |   x    |     x      | `--markdown-linebreak-ext=md`     | Pre-commit  |
-| `end-of-file-fixer`       |  x  |   x    |     x      |                                   | Pre-commit  |
-| `mixed-line-ending`       |  x  |   x    |     x      | `--fix=lf`                        | Pre-commit  |
-| `check-json`              |  x  |   x    |     x      | exclude `^\.vscode/.*\.json$`     | Pre-commit  |
-| `check-toml`              |  x  |   x    |     x      |                                   | Pre-commit  |
-| `check-yaml`              |  x  |   x    |     x      | files `\.(yml\|yaml)$`            | Pre-commit  |
-| `check-added-large-files` |  x  |   x    |     x      | `--maxkb=2000`                    | Pre-commit  |
-| `check-merge-conflict`    |  x  |   x    |     x      |                                   | Pre-commit  |
-| `check-case-conflict`     |  x  |   x    |     x      |                                   | Pre-commit  |
-| `ruff-check`              |     |   x    |     x      | `--fix`, `--exit-non-zero-on-fix` | Pre-commit  |
-| `ruff-format`             |     |   x    |     x      |                                   | Pre-commit  |
+| Tier                | Applies to                                      | Adds                                                             |
+| ------------------- | ----------------------------------------------- | ---------------------------------------------------------------- |
+| `ALL`               | Every repository, any language                  | Basic validation, Markdown/YAML/link checks, common config files |
+| `ALL-PY`            | Any repository with Python tooling or scripts   | Ruff and Python checks and configuration                         |
+| `ALL-PY-SRC`        | Python repositories with a `src/` package       | `ty`, tests, Zensical docs                                       |
+| `ALL-PY-SRC-PYPI`   | Publishable Python packages                     | PyPI release workflows                                           |
+| `ALL-COURSE`        | Course repositories                             | Course-specific ignores and safe defaults                        |
+| `ALL-COURSE-PY-SRC` | Course repositories with Python source packages | Standard course docs, API docs, and course docs config           |
 
 ## Ruff Policy
 
@@ -61,23 +29,8 @@ Use Ruff as the safe Python floor.
 ## Versioning Policy
 
 These repositories are not production deployment targets.
-Use normal `pre-commit` pinned `rev:` values because that is how `pre-commit`
-works, and do not treat them as permanent pins.
-WHY: exact long-term pinning creates maintenance burden and security lag.
-
-Update with:
-
-```shell
-pre-commit autoupdate
-```
-
-## Run Policy
-
-`pre-commit` carries the shared commit-time checks
-for repositories that use the full pre-commit gate.
-Course repositories may document Markdown linting
-as a manual command rather than
-installing it as a pre-commit hook.
+We avoid pinning versions where possible
+and try to keep our tools and `uv.lock` updated.
 
 ## Override Policy
 
@@ -102,7 +55,6 @@ They may use the same shared config files as research and package repositories,
 but should avoid unnecessary commit-time friction.
 In course repositories:
 
-- keep Markdown linting available outside pre-commit;
 - avoid making Markdown line wrapping too severe;
 - keep Ruff as a safe floor;
 - avoid strict optional rule families unless the course teaches them;

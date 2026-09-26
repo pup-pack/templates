@@ -60,7 +60,31 @@ cd templates
 code .
 ```
 
-### In a VS Code terminal
+### Add SHAs to Actions and Check
+
+```shell
+# Update GitHub Actions and pin all action references to immutable SHAs
+uvx gha-tools autoupdate --pin=all --write .github/workflows
+uvx gha-tools autoupdate --pin=all --write ALL/.github/workflows
+uvx gha-tools autoupdate --pin=all --write ALL-PY/.github/workflows
+uvx gha-tools autoupdate --pin=all --write ALL-PY-SRC/.github/workflows
+uvx gha-tools autoupdate --pin=all --write ALL*/.github/workflows
+
+# Then audit the resulting GitHub configuration for security findings
+uvx zizmor@latest .github/
+uvx zizmor@latest ALL/.github/
+uvx zizmor@latest ALL-PY/.github/
+uvx zizmor@latest ALL-PY-SRC/.github/
+uvx zizmor@latest ALL-PY-SRC-PYPI/.github/
+
+uvx zizmor@latest --fix=all .github/
+uvx zizmor@latest --fix=all ALL/.github/
+uvx zizmor@latest --fix=all ALL-PY/.github/
+uvx zizmor@latest --fix=all ALL-PY-SRC/.github/
+uvx zizmor@latest --fix=all ALL-PY-SRC-PYPI/.github/
+```
+
+### Git add-commit-push to GitHub
 
 ```shell
 # save progress
