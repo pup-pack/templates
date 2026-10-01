@@ -169,6 +169,12 @@ logs/
 # and avoids ignoring a nested source directory that happens to be named bin.
 /bin/
 
+# === Lean ===
+
+# WHY: Lake build and dependency state is generated.
+.lake/
+lake-packages/
+
 
 # === Markup and documentation ===
 
