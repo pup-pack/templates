@@ -1,15 +1,9 @@
 # ============================================================
-# .github/workflows/ci-lean.yml (LEAN-REPOS)
+# .github/workflows/ci-lean.yml (ALL-LEAN)
 # ============================================================
-# UPDATED: 2026-08-16
-#
-# WHY: Lean deliverables are proofs; broken proofs must not merge.
-# REQ: Any check that can be run locally MUST be available locally via pre-commit.
-# REQ: CI MUST NOT introduce arbitrary rules that are not reproducible locally.
+# UPDATED: 2026-10-01
 
 name: CI Lean
-
-# WHY: Validate repo contents on pushes to main branch and pull requests.
 
 on:
   push:
@@ -25,48 +19,39 @@ env:
   PYTHONUNBUFFERED: "1"     # WHY: Real-time logging.
   PYTHONIOENCODING: "utf-8" # WHY: Ensure UTF-8 encoding for international characters.
 
+
 jobs:
-  ci:
-    name: Repository checks
+  lean-ci:
+    name: Build Lean and export contract
     runs-on: ubuntu-latest # WHY: Linux environment matches most production deployments.
     timeout-minutes: 10    # WHY: Prevent hanging jobs. If over time, likely stuck.
 
     steps:
       # ============================================================
-      # ASSEMBLE: Get code and run repository checks
+      # A) ASSEMBLE: Get code and set up Lean
       # ============================================================
 
       - name: A1) Checkout repository code
-        uses: actions/checkout@v7
-        # WHY: Needed to access files for checks.
-
-      - name: A2) Run pre-commit on all files
-        id: precommit
-        uses: pre-commit/action@v3.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          extra_args: --all-files
-        # WHY: Single source of truth for locally runnable quality gates.
-        # OBS: Fails if hooks would modify files; does not commit changes.
+          persist-credentials: false
+        # WHY: Required so all subsequent steps can access repo files.
 
-      - name: A2f) If pre-commit failed, run it locally
-        if: failure()
-        run: |
-          echo "## Pre-commit failed" >> "$GITHUB_STEP_SUMMARY"
-          echo "Please run pre-commit locally and commit the resulting changes." >> "$GITHUB_STEP_SUMMARY"
+      - name: A2) Set up Lean toolchain
+        uses: leanprover/lean-action@50fcf42d2e460296f1a34b402e990d1b24f8b596 # v1
+        with:
+          build: false
+          test: false
+          lint: false
 
-  build:
-    name: Build Lean (compile)
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    needs: ci # WHY: Build only if repository checks succeed.
-
-    steps:
       # ============================================================
-      # BUILD: Get code and build Lean project
+      # B) BUILD: Compile Lean project
       # ============================================================
 
-      - name: B1) Checkout repository code
-        uses: actions/checkout@v7
+      - name: B1) Build Lean project
+        run: lake build
+        # WHY: Compiles the public Lean theory surface.
 
-      - name: B2) Build Lean project
-        uses: leanprover/lean-action@v1
+      - name: B2) Build Lean test surface
+        run: lake test
+        # WHY: Confirms the declared Lean test imports and public surface compile.

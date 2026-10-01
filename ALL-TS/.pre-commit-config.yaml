@@ -3,9 +3,12 @@
 # ============================================================
 # Updated: 2026-06-27
 #
-# REQ: Professional project repositories SHOULD include a pre-commit
-# configuration for basic file hygiene.
-# WHY: Provide fast, consistent checks before committing code.
+# REQ: Professional projects using Python src/ SHOULD include git hooks.
+# WHY: Minimize git diffs, catch common issues early, and support collaboration.
+#
+# OBS: These hooks use and do NOT override:
+#   - .editorconfig (whitespace / indentation)
+#   - .gitattributes (EOL normalization)
 #
 # OBS: Language-specific hooks belong in more specific baselines such as
 # ALL-PY or ALL-TS.

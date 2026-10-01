@@ -52,7 +52,7 @@ exclude: |
   )
 
 repos:
-  # === REPO: PRE-COMMIT HOOKS (cross-platform, zero config) ===
+  # === REPO: COMMON GIT HOOKS (cross-platform, zero config) ===
   #
   # These hooks prevent problems that show up later as:
   #   - mysterious diffs
@@ -61,7 +61,7 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
-      # === PRE-COMMIT: NORMALIZE FILE FORMATTING ===
+      # === HOOK: NORMALIZE FILE FORMATTING ===
 
       - id: trailing-whitespace
         name: A1) Clean trailing whitespace (per .editorconfig)
@@ -74,7 +74,7 @@ repos:
         name: A3) Normalize line endings to LF before linters
         args: [--fix=lf] # OBS: Windows working copies may be CRLF.
 
-      # === PRE-COMMIT: CHECK DATA FILE FORMATS ===
+      # === HOOK: CHECK DATA FILE FORMATS ===
 
       - id: check-json
         name: B1) Validate JSON syntax (except .vscode/)
@@ -90,7 +90,7 @@ repos:
         # WHY: VS Code config files are editor-specific.
         exclude: ^\.vscode/
 
-      # === PRE-COMMIT: CHECK FOR COMMON PROBLEMS ===
+      # === HOOK: CHECK FOR COMMON PROBLEMS ===
 
       - id: check-added-large-files
         name: C1) Prevent accidental commits of large binaries
@@ -102,12 +102,12 @@ repos:
       - id: check-case-conflict
         name: C3) Check for filename case conflicts
 
-  # === REPO: RUFF PRE-COMMIT (for Python code) ===
+  # === REPO: RUFF HOOKS (for Python code) ===
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.9
     hooks:
-      # === RUFF PRE-COMMIT CHECKS ===
+      # === RUFF CHECKS ===
       - id: ruff-format
         name: D1) Ruff format (before linting)
 
