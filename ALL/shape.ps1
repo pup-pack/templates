@@ -30,7 +30,7 @@ $excludedDirectories = @(
     ".eggs",
     ".git",
     ".ipynb_checkpoints",
-    *.lake",
+    ".lake",
     ".mypy_cache",
     ".nox",
     ".pytest_cache",
