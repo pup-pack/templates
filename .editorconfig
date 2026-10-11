@@ -123,7 +123,8 @@ indent_style = space
 # === Programming languages and scripts ===
 
 [*.{bat,cmd}]
-# WHY: Windows batch and command scripts use a simple 2-space shared baseline.
+# WHY: Windows batch scripts use CRLF line endings.
+end_of_line = crlf
 indent_size = 2
 indent_style = space
 

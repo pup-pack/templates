@@ -1,10 +1,9 @@
 # Annotations
 
-<!--
-WHY: This repository uses the Structural Explainability Annotation Standard
-to document decisions, constraints, and alternatives directly alongside
-code and configuration.
--->
+This project uses structured annotations such as WHY, REQ, and OBS
+to document rationale, requirements, and observations
+directly alongside code and configuration.
 
-This repository uses the annotation standard defined at:
-<https://github.com/structural-explainability/.github/blob/main/ANNOTATIONS.md>
+## Standard
+
+[Structural Explainability Annotation Standard](https://github.com/structural-explainability/.github/blob/main/ANNOTATIONS.md)

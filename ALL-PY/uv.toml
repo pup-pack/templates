@@ -1,0 +1,29 @@
+# ============================================================
+# uv.toml (ALL-PY-REPOS)
+# ============================================================
+# Updated: 2026-10-11
+#
+# WHAT: Configures uv, the Python environment and dependency manager.
+#       TOML is a human-readable configuration file format.
+#
+# WHEN: uv reads this file automatically when running project commands.
+#
+# WHY: Maintain consistent Python dependency-management settings
+#      across professional repositories.
+#
+# HOW: Run uv commands from the repository root.
+#      Project dependencies remain declared in pyproject.toml.
+#
+# TOOLS: uv manages Python environments and dependencies.
+#
+# SKILLS: Python environments, dependency management,
+#         configuration, and reproducible development.
+#
+# CUSTOM: Adjust settings for project-specific requirements.
+# ============================================================
+
+# WHY: Include all defined dependency groups with the canonical uv sync.
+default-groups = "all"
+
+# WHY: Allow time for newly published dependency releases to be evaluated.
+exclude-newer = "7 days"

@@ -104,12 +104,12 @@ args = ["--markdown-linebreak-ext=md"]
 id = "end-of-file-fixer"
 name = "A2) End files with a newline (per .gitattributes)"
 
-
 [[repos.hooks]]
 id = "mixed-line-ending"
 name = "A3) Normalize line endings to LF before linters"
 args = ["--fix=lf"]
-# OBS: Windows working copies may be CRLF.
+exclude = '\.(bat|cmd)$'
+# WHY: Windows batch scripts use CRLF line endings.
 
 # === HOOK: CHECK DATA FILE FORMATS ===
 
