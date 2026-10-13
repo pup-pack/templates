@@ -29,6 +29,7 @@
 // OBS: Language-specific formatter settings are listed alphabetically.
 // ============================================================
 {
+  // WHY: Avoid automatic file changes on save; format explicitly when intended.
   "editor.formatOnSave": false,
 
   "[github-actions-workflow]": {
@@ -48,12 +49,5 @@
   },
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-
-  "yaml.schemas": {
-    "https://json.schemastore.org/github-workflow.json": [
-      ".github/workflows/*.yml",
-      ".github/workflows/*.yaml"
-    ]
   }
 }
