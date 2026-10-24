@@ -1,7 +1,7 @@
 # ============================================================
 # .github/workflows/ci-python-zensical.yml (ALL-PY-SRC-REPOS)
 # ============================================================
-# Updated: 2026-10-11
+# Updated: 2026-10-24
 #
 # WHAT: A GitHub Actions workflow that automatically checks project quality.
 #       GitHub Actions is GitHub's built-in project automation service.
@@ -73,7 +73,7 @@ jobs:
         # WHY: Required so all subsequent steps can access repo files.
 
       - name: A2) Install uv (with caching and uv.lock awareness)
-        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
         with:
           enable-cache: true
           # WHY: Cache uv-managed artifacts for faster subsequent runs.
