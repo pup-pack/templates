@@ -106,3 +106,16 @@ exclude = [
     "127\\.0\\.0\\.1",                       # WHY: Exclude local loopback
     "\\.local",                              # WHY: Exclude local network domains
 ]
+
+# === Path exclusions ===
+
+# WHY: Exclude paths not relevant for link checking.
+# NOTE: These names are used by the shared template repository and are harmless
+# in repositories that do not contain matching paths.
+exclude_path = [
+    "ALL",
+    "ALL-PY",
+    "ALL-PY-SRC",
+    "ALL-COURSE",
+    "ALL-COURSE-PY-SRC",
+]
