@@ -1,0 +1,18 @@
+# ============================================================
+# .github/lychee.toml_requires_custom (CUSTOM: TEMPLATES from ALL-REPOS)
+# ============================================================
+# Updated: 2026-10-25
+# Add this at the end after updating
+
+# === Path exclusions ===
+
+# WHY: Exclude paths not relevant for link checking.
+# NOTE: These names are used by the shared template repository and are harmless
+# in repositories that do not contain matching paths.
+exclude_path = [
+    "ALL",
+    "ALL-PY",
+    "ALL-PY-SRC",
+    "ALL-COURSE",
+    "ALL-COURSE-PY-SRC",
+]
